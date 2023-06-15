@@ -49,7 +49,7 @@ jobs:
           source /opt/intel/oneapi/setvars.sh
           printenv >> $GITHUB_ENV
           icc --version
-          icc++ --version
+          icpc --version
           echo "Compile here"
         # ifort test.f90 -o test_program
         # mpiifort test2.f90 -o mpitest
@@ -65,13 +65,13 @@ jobs:
         run: cmake -B build . -DCMAKE_BUILD_TYPE=Release 
         env:
           CC: icc
-          CXX: icc++
+          CXX: icpc
 
       - name: Run CMake
         run: cmake --build build 
         env:
           CC: icc
-          CXX: icc++
+          CXX: icpc
 
       - name: Run the program
         run: ./build/gha_cmake_intel_cpp17_gprof
@@ -80,7 +80,7 @@ jobs:
         run: gprof ./build/gha_cmake_intel_cpp17_gprof > gprof.log
         env:
           CC: icc
-          CXX: icc++
+          CXX: icpc
 
       - name: Read the 100 top lines
         run: head gprof.log -n 100
