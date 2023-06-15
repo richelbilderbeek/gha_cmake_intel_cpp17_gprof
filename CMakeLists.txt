@@ -12,6 +12,10 @@ find_package(MKL REQUIRED)
 # C++17
 set(CMAKE_CXX_STANDARD 17)
 
+# Show compiler info
+message("Compiler ID: ${CMAKE_CXX_COMPILER_ID}")
+message("Compiler version: ${CMAKE_CXX_COMPILER_VERSION}")
+
 # gprof
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
 set(CMAKE_LFLAGS "${CMAKE_LFLAGS} -pg")
