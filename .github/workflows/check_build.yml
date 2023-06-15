@@ -68,6 +68,7 @@ jobs:
       #  #    ./$HOME/work/reponame/reponame/test_program
 
       # Adapted from https://devmesh.intel.com/posts/991253/adding-intel-oneapi-toolkits-to-github-actions
+      # icpx: warning: use of 'dpcpp' is deprecated and will be removed in a future release. Use 'icpx -fsycl' 
       - name: configure
         shell: bash
         run: |
@@ -75,7 +76,7 @@ jobs:
            cmake -S . -B build \
           -DCMAKE_BUILD_TYPE="RelWithDebInfo" \
           -DCMAKE_INSTALL_PREFIX=install \
-          -DCMAKE_CXX_COMPILER=dpcpp \
+          -DCMAKE_CXX_COMPILER=icpx \
           -DCMAKE_C_COMPILER=icx \
           -DIntelDPCPP_DIR="/opt/intel/oneapi/compiler/latest/linux/cmake/SYCL" \
           -DMKL_ROOT="/opt/intel/oneapi/mkl/latest" \
