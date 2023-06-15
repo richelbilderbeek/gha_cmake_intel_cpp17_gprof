@@ -35,11 +35,13 @@ jobs:
       - name: Browse Intel components
         run: apt-cache search intel-oneapi-
 
+      # Only need intel-oneapi-compiler-dpcpp-cpp and intel-oneapi-mkl-devel, according to
+      # https://devmesh.intel.com/posts/991253/adding-intel-oneapi-toolkits-to-github-actions
       - name: Install Intel components
-        run: |
-          sudo apt install --yes intel-oneapi-compiler-dpcpp-cpp-common-2023.1.0
-          sudo apt install --yes intel-oneapi-common-vars
-          sudo apt install --yes intel-basekit
+        run: sudo apt install --yes intel-oneapi-compiler-dpcpp-cpp intel-oneapi-mkl-devel
+          #sudo apt install --yes intel-oneapi-compiler-dpcpp-cpp-common-2023.1.0
+          #sudo apt install --yes intel-oneapi-common-vars
+          #sudo apt install --yes intel-basekit
           #sudo apt-get install --yes intel-oneapi-compiler-fortran
           #sudo apt-get install --yes intel-oneapi-mkl
           #sudo apt-get install --yes intel-oneapi-mpi
