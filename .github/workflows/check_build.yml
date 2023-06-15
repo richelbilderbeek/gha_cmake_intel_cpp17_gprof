@@ -1,0 +1,37 @@
+# Build and profile the C++ code
+name: Check build
+
+on:
+  push:
+  pull_request:
+  schedule:
+  - cron: "0 0 1 * *"
+
+
+jobs:
+  check_build:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up CMake build folder for release mode, thanks https://stackoverflow.com/a/64719718
+        run: cmake -B build . -DCMAKE_BUILD_TYPE=Release 
+
+      - name: Run CMake
+        run: cmake --build build 
+
+      - name: Run the program
+        run: ./build/gha_cmake_intel_cpp17_gprof
+
+      - name: Produce the gprof log
+        run: gprof ./build/gha_cmake_intel_cpp17_gprof > gprof.log
+
+      - name: Read the 100 top lines
+        run: head gprof.log -n 100
+
+      - name: Get g++ version
+        run: g++ --version
