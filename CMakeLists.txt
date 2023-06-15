@@ -8,6 +8,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 list(APPEND CMAKE_MODULE_PATH "${IntelSYCL_DIR}")
 find_package(IntelSYCL REQUIRED)
 find_package(MKL REQUIRED)
+set(MKL_ROOT /opt/intel/oneapi/mkl/latest)
 
 # C++17
 set(CMAKE_CXX_STANDARD 17)
