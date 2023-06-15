@@ -50,34 +50,56 @@ jobs:
       - name: Show the common variables scritp
         run: cat /opt/intel/oneapi/setvars.sh
 
-      - name: Compile
+      #- name: Compile
+      #  run: |
+      #    source /opt/intel/oneapi/setvars.sh
+      #    printenv >> $GITHUB_ENV
+      #    icc --version
+      #    icpc --version
+      #    echo "Compile here"
+      #  # ifort test.f90 -o test_program
+      #  # mpiifort test2.f90 -o mpitest
+
+      #  #- name: "Test the code"
+      #  #  run: |
+      #  #    echo "Running the tests using the Intel oneapi fortran compiler"
+      #  #    cd tests/test01
+      #  #    mpirun -np 1  $HOME/work/reponame/reponame/mpitest
+      #  #    ./$HOME/work/reponame/reponame/test_program
+
+      # Adapted from https://devmesh.intel.com/posts/991253/adding-intel-oneapi-toolkits-to-github-actions
+      - name: configure
+        shell: bash
         run: |
           source /opt/intel/oneapi/setvars.sh
-          printenv >> $GITHUB_ENV
-          icc --version
-          icpc --version
-          echo "Compile here"
-        # ifort test.f90 -o test_program
-        # mpiifort test2.f90 -o mpitest
+           cmake -S . -B build \
+          -DCMAKE_BUILD_TYPE="RelWithDebInfo" \
+          -DCMAKE_INSTALL_PREFIX=install \
+          -DCMAKE_CXX_COMPILER=dpcpp \
+          -DCMAKE_C_COMPILER=icx \
+          -DIntelDPCPP_DIR="/opt/intel/oneapi/compiler/latest/linux/cmake/SYCL" \
+          -DMKL_ROOT="/opt/intel/oneapi/mkl/latest" \
+          -DTBB_ROOT="/opt/intel/oneapi/tbb/latest"
+      
+      # Adapted from https://devmesh.intel.com/posts/991253/adding-intel-oneapi-toolkits-to-github-actions
+      - name: build
+        shell: bash
+        run: |
+          source /opt/intel/oneapi/setvars.sh
+          cmake --build build
 
-        #- name: "Test the code"
-        #  run: |
-        #    echo "Running the tests using the Intel oneapi fortran compiler"
-        #    cd tests/test01
-        #    mpirun -np 1  $HOME/work/reponame/reponame/mpitest
-        #    ./$HOME/work/reponame/reponame/test_program
 
-      - name: Set up CMake build folder for release mode, thanks https://stackoverflow.com/a/64719718
-        run: cmake -B build . -DCMAKE_BUILD_TYPE=Release 
-        env:
-          CC: icc
-          CXX: icpc
+      #- name: Set up CMake build folder for release mode, thanks https://stackoverflow.com/a/64719718
+      #  run: cmake -B build . -DCMAKE_BUILD_TYPE=Release 
+      #  env:
+      #    CC: icc
+      #    CXX: icpc
 
-      - name: Run CMake
-        run: cmake --build build 
-        env:
-          CC: icc
-          CXX: icpc
+      #- name: Run CMake
+      #  run: cmake --build build 
+      #  env:
+      #    CC: icc
+      #    CXX: icpc
 
       - name: Run the program
         run: ./build/gha_cmake_intel_cpp17_gprof
