@@ -5,8 +5,8 @@ project(gha_cmake_intel_cpp17_gprof)
 # Intel things, all from https://devmesh.intel.com/posts/991253/adding-intel-oneapi-toolkits-to-github-actions
 enable_language(CXX)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-list(APPEND CMAKE_MODULE_PATH "${IntelDPCPP_DIR}")
-find_package(IntelDPCPP REQUIRED)
+list(APPEND CMAKE_MODULE_PATH "${IntelSYCL_DIR}")
+find_package(IntelSYCL REQUIRED)
 find_package(MKL REQUIRED)
 
 # C++17
