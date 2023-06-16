@@ -43,11 +43,13 @@ int main()
   static_assert("C++17");
 
   #ifdef __GNUC__
-  #error No GCC in this example please
+  // This still is defined :-/
+  //#error No GCC in this example please
   #endif
 
   #ifdef __clang__
-  #error No clang in this example please
+  // This still is defined :-/
+  //#error No clang in this example please
   #endif
 
   const auto v = create_series(500'000);
