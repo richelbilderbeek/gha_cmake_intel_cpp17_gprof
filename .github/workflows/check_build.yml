@@ -109,6 +109,9 @@ jobs:
       #    CC: icc
       #    CXX: icpc
 
+      - name: Build the program
+        run: ./scripts/build.sh
+
       - name: Run the program
         run: ./build/gha_cmake_intel_cpp17_gprof
 
